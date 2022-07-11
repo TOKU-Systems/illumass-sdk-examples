@@ -1,8 +1,8 @@
 import { createIllumass } from '@illumass/illumass-sdk';
+import { jwt } from '../common';
+import events from 'events';
 
-const jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIwY2EyNDQ3MS0yMzJhLTRjYjMtOGE2Ni1hM2Q1NTE3NjljMDEiLCJpYXQiOjE2NTc1NjMxNjYsImV4cCI6MTY5MjEyMzE2Nn0.YRG6JA79gOrodysSIKkHL7EFl3nDvJdTcFfUYVRvuiM';
 const illumass = createIllumass();
-let roomId = '';
 
 async function authenticate(): Promise<void> {
   // You can authenticate with JWT or username/password
@@ -12,22 +12,29 @@ async function authenticate(): Promise<void> {
   }
 }
 
-async function subscribe(): Promise<void> {
-  roomId = await illumass.kuzzle.realtime.subscribe('rumble', 'signal-intervals', {}, (notification) => {
-    console.log(JSON.stringify(notification));
+async function subscribe(): Promise<string> {
+  return await illumass.kuzzle.realtime.subscribe('rumble', 'signal-intervals', {}, (notification) => {
+    console.log(JSON.stringify(notification, undefined, 2));
   });
 }
+
+process.stdin.setRawMode(true);
+process.stdin.resume();
 
 illumass.connect()
   .then(async () => {
     await authenticate();
-    // await subscribe();
-  })
-  .finally(async () => {
-    if (roomId !== '') {
+    const roomId = await subscribe();
+    try {
+      console.log('Press any key to quit.');
+      await events.once(process.stdin, 'data');
+    } finally {
       await illumass.kuzzle.realtime.unsubscribe(roomId);
     }
   })
   .finally(() => illumass.disconnect())
-  .then(() => console.log('done'))
-  .catch((err) => console.error(err));
+  .then(() => process.exit(0))
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });

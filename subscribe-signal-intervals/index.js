@@ -35,17 +35,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var illumass_sdk_1 = require("@illumass/illumass-sdk");
-var jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiIwY2EyNDQ3MS0yMzJhLTRjYjMtOGE2Ni1hM2Q1NTE3NjljMDEiLCJpYXQiOjE2NTc1NjMxNjYsImV4cCI6MTY5MjEyMzE2Nn0.YRG6JA79gOrodysSIKkHL7EFl3nDvJdTcFfUYVRvuiM';
+var common_1 = require("../common");
+var events_1 = __importDefault(require("events"));
 var illumass = (0, illumass_sdk_1.createIllumass)();
-var roomId = '';
 function authenticate() {
     return __awaiter(this, void 0, void 0, function () {
         var ok;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, illumass.auth.setJwt(jwt)];
+                case 0: return [4 /*yield*/, illumass.auth.setJwt(common_1.jwt)];
                 case 1:
                     ok = _a.sent();
                     if (!ok) {
@@ -61,39 +64,45 @@ function subscribe() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, illumass.kuzzle.realtime.subscribe('rumble', 'signal-intervals', {}, function (notification) {
-                        console.log(JSON.stringify(notification));
+                        console.log(JSON.stringify(notification, undefined, 2));
                     })];
-                case 1:
-                    roomId = _a.sent();
-                    return [2 /*return*/];
+                case 1: return [2 /*return*/, _a.sent()];
             }
         });
     });
 }
+process.stdin.setRawMode(true);
+process.stdin.resume();
 illumass.connect()
     .then(function () { return __awaiter(void 0, void 0, void 0, function () {
+    var roomId;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0: return [4 /*yield*/, authenticate()];
             case 1:
                 _a.sent();
-                return [2 /*return*/];
-        }
-    });
-}); })
-    .finally(function () { return __awaiter(void 0, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (!(roomId !== '')) return [3 /*break*/, 2];
-                return [4 /*yield*/, illumass.kuzzle.realtime.unsubscribe(roomId)];
-            case 1:
+                return [4 /*yield*/, subscribe()];
+            case 2:
+                roomId = _a.sent();
+                _a.label = 3;
+            case 3:
+                _a.trys.push([3, , 5, 7]);
+                console.log('Press any key to quit.');
+                return [4 /*yield*/, events_1.default.once(process.stdin, 'data')];
+            case 4:
                 _a.sent();
-                _a.label = 2;
-            case 2: return [2 /*return*/];
+                return [3 /*break*/, 7];
+            case 5: return [4 /*yield*/, illumass.kuzzle.realtime.unsubscribe(roomId)];
+            case 6:
+                _a.sent();
+                return [7 /*endfinally*/];
+            case 7: return [2 /*return*/];
         }
     });
 }); })
     .finally(function () { return illumass.disconnect(); })
-    .then(function () { return console.log('done'); })
-    .catch(function (err) { return console.error(err); });
+    .then(function () { return process.exit(0); })
+    .catch(function (err) {
+    console.error(err);
+    process.exit(1);
+});

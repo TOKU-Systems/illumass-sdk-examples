@@ -2,7 +2,6 @@
   "name": "@illumass/illumass-sdk-examples",
   "version": "1.0.0",
   "description": "Subscribe example",
-  "main": "index.js",
   "scripts": {
     "build": "tsc",
     "subscribe-signal-intervals": "node subscribe-signal-intervals/index.js"
