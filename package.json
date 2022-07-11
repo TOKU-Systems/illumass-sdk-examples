@@ -1,0 +1,19 @@
+{
+  "name": "@illumass/illumass-sdk-examples",
+  "version": "1.0.0",
+  "description": "Subscribe example",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "subscribe-signal-intervals": "node subscribe-signal-intervals/index.js"
+  },
+  "author": "Leo Chan",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node": "^10.8.2",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@illumass/illumass-sdk": "^4.0.0"
+  }
+}
