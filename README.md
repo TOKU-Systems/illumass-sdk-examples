@@ -4,7 +4,7 @@
 This example was developed using `lts/fermium`, or `14.19.3`.
 2. Install dependencies `npm install`
 3. Build examples `npm build`
-4. Run example `npm run <folder>`. e.g. `npm run subscribe-signal-intervals`
+4. Run example `npm run <folder in src>`. e.g. `npm run subscribe-signal-intervals`
 
 ## Examples
 
