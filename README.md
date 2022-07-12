@@ -8,7 +8,13 @@ This example was developed using `lts/fermium`, or `14.19.3`.
 
 ## Examples
 
+### `read-raw`
+
+Read raw data by location.
+
 ### `subscribe-signal-intervals`
 
 Subscribe to signal intervals. Note that this subscribes to signal intervals for
 physical sensors on device, and location based sensors.
+
+[More info can be found here](./src/subscribe-signal-intervals/README.md).
