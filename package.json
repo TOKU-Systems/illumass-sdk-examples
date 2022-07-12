@@ -4,7 +4,8 @@
   "description": "Subscribe example",
   "scripts": {
     "build": "tsc",
-    "subscribe-signal-intervals": "ts-node src/subscribe-signal-intervals/index.ts"
+    "subscribe-signal-intervals": "ts-node src/subscribe-signal-intervals/index.ts",
+    "read-raw": "ts-node src/read-raw/index.ts"
   },
   "author": "Leo Chan",
   "license": "ISC",
