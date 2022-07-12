@@ -17,4 +17,4 @@ Read raw data by location.
 Subscribe to signal intervals. Note that this subscribes to signal intervals for
 physical sensors on device, and location based sensors.
 
-[More info can be found here](./src/subscribe-signal-intervals/README.md).
+More details on subscribe can be found [here](./src/subscribe-signal-intervals/README.md).
