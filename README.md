@@ -8,11 +8,11 @@ This example was developed using `lts/fermium`, or `14.19.3`.
 
 ## Examples
 
-### `read-raw`
+### `npm run read-raw`
 
 Read raw data by location.
 
-### `subscribe-signal-intervals`
+### `npm run subscribe-signal-intervals`
 
 Subscribe to signal intervals. Note that this subscribes to signal intervals for
 physical sensors on device, and location based sensors.
